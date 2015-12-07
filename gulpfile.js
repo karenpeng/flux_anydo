@@ -6,6 +6,7 @@ var browserify = require('browserify')
 var watchify = require('watchify')
 var server = require('gulp-server-livereload')
 var mocha = require('gulp-mocha')
+var sass = require('gulp-sass')
 
 function compile(watch) {
   var bundler = watchify(browserify({
@@ -20,7 +21,7 @@ function compile(watch) {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('build'))
+      .pipe(gulp.dest('build/js'))
   }
 
   if (watch) {
@@ -31,6 +32,13 @@ function compile(watch) {
   }
 
   rebundle()
+  bundleCss()
+}
+
+function bundleCss(){
+  gulp.src('./src/sass/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('build/css'))
 }
 
 function watch() {

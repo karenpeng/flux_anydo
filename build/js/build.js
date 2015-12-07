@@ -19870,12 +19870,57 @@ module.exports = require('./lib/React');
 },{"./lib/React":33}],166:[function(require,module,exports){
 'use strict';
 
-var FluxUtil = require('../utils/utils');
+var FluxUtil = require('../utils/fluxUtil');
 var ItemConstants = require('../constants/constants');
 
 module.exports = FluxUtil.initActions(
   {}, ItemConstants.ACTION_LIST).actions;
-},{"../constants/constants":168,"../utils/utils":172}],167:[function(require,module,exports){
+},{"../constants/constants":170,"../utils/fluxUtil":174}],167:[function(require,module,exports){
+'use strict';
+
+var r = require('r-dom');
+var React = require('react');
+var actions = require('../actions/actions');
+var store = require('../store/store');
+var constants = require('../constants/constants');
+var generateId = require('../utils/mathUtil').generateId;
+
+var InputBox = React.createClass({
+	displayName: 'InputBox',
+
+	componentWillMount: function(){
+		store.on(constants.CHANGE_EVENT, function(){
+			this.forceUpdate();
+		}.bind(this));
+	},
+
+	render: function(){
+		
+		return r.div({}, [
+			r.input({
+				defaultValue: 'what\'s in your mind?',
+				onBlur: function(e) {
+					actions.add({
+						key: generateId(),
+						ctn: e.target.value
+					});
+				},
+				onKeyUp: function(e){
+					if(e.keyCode === 13){
+						e.preventDefault();
+						actions.add({
+							key: generateId(),
+							ctn: e.target.value
+						});
+					}
+				}
+			})
+		])
+	}
+});
+
+module.exports = InputBox;
+},{"../actions/actions":166,"../constants/constants":170,"../store/store":173,"../utils/mathUtil":175,"r-dom":7,"react":165}],168:[function(require,module,exports){
 'use strict';
 
 var r = require('r-dom');
@@ -19894,14 +19939,12 @@ var List = React.createClass({
 	},
 
 	render: function(){
-		var msgList = store.getList();
+		var msgOrder = store.getOrder();
 		var crtKey = store.getCurrentKey();
 		
 		var domList = [];
 
-		for(var key in msgList) {
-			
-			var ddd
+		msgOrder.forEach(function(key){
 
 			domList.push(
 				key !== crtKey ?
@@ -19909,29 +19952,59 @@ var List = React.createClass({
 					onClick: function(){
 						actions.edit(key);
 					}
-				}, msgList[key].content) :
+				}, store.getItem(key).ctn) :
 				r.input({
-					defaultValue: msgList[key].content,
+					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e) {
 						actions.save({
 							key: key,
 							ctn: e.target.value
 						});
+					},
+					onKeyUp: function(e){
+						if(e.keyCode === 13){
+							e.preventDefault();
+							actions.save({
+								key: key,
+								ctn: e.target.value
+							});
+						}
 					}
 				})
 			);
-		}
-		return r.div(domList);
+		})
+		return r.div({}, domList);
 	}
 })
 
 module.exports = List;
 
-},{"../actions/actions":166,"../constants/constants":168,"../store/store":171,"r-dom":7,"react":165}],168:[function(require,module,exports){
+},{"../actions/actions":166,"../constants/constants":170,"../store/store":173,"r-dom":7,"react":165}],169:[function(require,module,exports){
+'use strict';
+
+var r = require('r-dom');
+var React = require('react');
+var List = require('./List');
+var InputBox = require('./InputBox');
+
+var App = React.createClass({
+	displayName: 'app',
+
+	render: function(){
+		return r.div({}, [
+			r(InputBox),
+			r(List)
+		])
+	}
+})
+
+module.exports = App;
+},{"./InputBox":167,"./List":168,"r-dom":7,"react":165}],170:[function(require,module,exports){
 'use strict';
 
 var ItemConstants = {
   ACTION_LIST: [
+  	'add',
     'edit',
     'save',
     'remove'
@@ -19940,7 +20013,7 @@ var ItemConstants = {
 };
 
 module.exports = ItemConstants;
-},{}],169:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 'use strict';
 
 var Dispatcher = require('flux').Dispatcher;
@@ -19965,42 +20038,55 @@ var AppDispatcher = assign(new Dispatcher(), {
 });
 
 module.exports = AppDispatcher;
-},{"flux":3,"object-assign":6}],170:[function(require,module,exports){
-var List = require('./components/list');
-var ReactDom = require('react-dom');
+},{"flux":3,"object-assign":6}],172:[function(require,module,exports){
+var App = require('./components/app');
 var r = require('r-dom');
+var ReactDom = require('react-dom');
 
-ReactDom.render(r(List), document.getElementById('container'));
-},{"./components/list":167,"r-dom":7,"react-dom":9}],171:[function(require,module,exports){
+ReactDom.render(r(App), document.getElementById('container'));
+},{"./components/app":169,"r-dom":7,"react-dom":9}],173:[function(require,module,exports){
 'use strict';
 
-var FluxUtil = require('../utils/utils');
+var FluxUtil = require('../utils/fluxUtil');
 var constants = require('../constants/constants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var _currentID = null;
 var _list = {
-	88: {
-		id: 88,
-		content: 'hello'
+	'88': {
+		id: '88',
+		ctn: 'hello'
 	}
 };
+var _order = [];
+_order.push('88');
 
 var store = assign({}, EventEmitter.prototype, {
 	getList: function(){
 		return _list;
 	},
-
+	getItem: function(id){
+		return _list[id];
+	},
+	getOrder: function(){
+		return _order;
+	},
 	getCurrentKey: function(){
 		return _currentID;
 	},
 
-	emitSave: function(){
-
-	},
-
 	dispatcherIndex: FluxUtil.registerActionHandler({
+		add: function(action){
+			var _id = action.data.key;
+			var _ctn = action.data.ctn;
+			_list[_id] = {
+				id: _id,
+				ctn: _ctn
+			}
+			_order.unshift(_id);
+			store.emit(constants.CHANGE_EVENT);
+		},
 		edit: function(action){
 			_currentID = action.data;
 			store.emit(constants.CHANGE_EVENT);
@@ -20009,19 +20095,23 @@ var store = assign({}, EventEmitter.prototype, {
 		save: function(action) {
 			var _id = action.data.key;
 			var _ctn = action.data.ctn;
-			_list[_id].content = _ctn;
+			_list[_id].ctn = _ctn;
 			_currentID = null;
+			_order.unsift(_id);
 			store.emit(constants.CHANGE_EVENT);
 		},
 
-		remove: function(){
-
+		remove: function(action){
+			var _id = action.data.key;
+			delete _list[_id];
+			// _order.(_id);
+			store.emit(constants.CHANGE_EVENT);
 		}
 	})
 })
 
 module.exports = store;
-},{"../constants/constants":168,"../utils/utils":172,"events":1,"object-assign":6}],172:[function(require,module,exports){
+},{"../constants/constants":170,"../utils/fluxUtil":174,"events":1,"object-assign":6}],174:[function(require,module,exports){
 'use strict';
 
 var AppDispatcher = require('../dispatchers/dispatchers');
@@ -20100,7 +20190,13 @@ var FluxUtil = {
 };
 
 module.exports = FluxUtil;
-},{"../dispatchers/dispatchers":169}]},{},[170])
+},{"../dispatchers/dispatchers":171}],175:[function(require,module,exports){
+'use strict';
+
+exports.generateId = function(){
+	return ((Math.random() + '').substr(2, 8) - 0).toString(36)
+}
+},{}]},{},[172])
 
 
 //# sourceMappingURL=build.js.map

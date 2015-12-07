@@ -16,14 +16,12 @@ var List = React.createClass({
 	},
 
 	render: function(){
-		var msgList = store.getList();
+		var msgOrder = store.getOrder();
 		var crtKey = store.getCurrentKey();
 		
 		var domList = [];
 
-		for(var key in msgList) {
-			
-			var ddd
+		msgOrder.forEach(function(key){
 
 			domList.push(
 				key !== crtKey ?
@@ -31,19 +29,28 @@ var List = React.createClass({
 					onClick: function(){
 						actions.edit(key);
 					}
-				}, msgList[key].content) :
+				}, store.getItem(key).ctn) :
 				r.input({
-					defaultValue: msgList[key].content,
+					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e) {
 						actions.save({
 							key: key,
 							ctn: e.target.value
 						});
+					},
+					onKeyUp: function(e){
+						if(e.keyCode === 13){
+							e.preventDefault();
+							actions.save({
+								key: key,
+								ctn: e.target.value
+							});
+						}
 					}
 				})
 			);
-		}
-		return r.div(domList);
+		})
+		return r.div({}, domList);
 	}
 })
 
