@@ -4,7 +4,7 @@ var ItemConstants = {
   ACTION_LIST: [
   	'add',
     'edit',
-    'save',
+    'modify',
     'remove'
   ],
   CHANGE_EVENT : 'change'

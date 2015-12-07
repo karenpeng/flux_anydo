@@ -27,7 +27,8 @@
     "object-assign": "^4.0.1",
     "r-dom": "^2.1.0",
     "react": "0.14.x",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "react-hammerjs": "^0.4.3"
   },
   "author": "",
   "license": "ISC"

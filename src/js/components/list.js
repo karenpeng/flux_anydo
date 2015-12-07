@@ -5,6 +5,8 @@ var React = require('react');
 var actions = require('../actions/actions');
 var store = require('../store/store');
 var constants = require('../constants/constants');
+var classNames = require('classnames');
+var Hammer = require('react-hammerjs');
 
 var List = React.createClass({
 	displayName: 'List',
@@ -25,15 +27,30 @@ var List = React.createClass({
 
 			domList.push(
 				key !== crtKey ?
-				r.div({
-					onClick: function(){
-						actions.edit(key);
-					}
-				}, store.getItem(key).ctn) :
+				r.div({},[
+					r(Hammer, {
+							onSwipte: function(){
+								console.log('ouch!')
+							}
+						}, [
+							r.div({
+								className: 'item',
+								onClick: function(){
+									actions.edit(key);
+								}
+							}, store.getItem(key).ctn)
+						]),
+						r.button({
+							onClick: function(){
+								actions.remove(key);
+							}
+						},'x')
+					]):
 				r.input({
+					className: classNames('item', 'editing'),
 					defaultValue: store.getItem(key).ctn,
-					onBlur: function(e) {
-						actions.save({
+					onBlur: function(e){
+						actions.modify({
 							key: key,
 							ctn: e.target.value
 						});
@@ -41,7 +58,7 @@ var List = React.createClass({
 					onKeyUp: function(e){
 						if(e.keyCode === 13){
 							e.preventDefault();
-							actions.save({
+							actions.modify({
 								key: key,
 								ctn: e.target.value
 							});

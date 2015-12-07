@@ -6,14 +6,8 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var _currentID = null;
-var _list = {
-	'88': {
-		id: '88',
-		ctn: 'hello'
-	}
-};
+var _list = {};
 var _order = [];
-_order.push('88');
 
 var store = assign({}, EventEmitter.prototype, {
 	getList: function(){
@@ -30,34 +24,43 @@ var store = assign({}, EventEmitter.prototype, {
 	},
 
 	dispatcherIndex: FluxUtil.registerActionHandler({
-		add: function(action){
-			var _id = action.data.key;
+		add: function(action){		
 			var _ctn = action.data.ctn;
-			_list[_id] = {
-				id: _id,
-				ctn: _ctn
+			if(_ctn !== ''){
+				var _id = action.data.key;
+				_list[_id] = {
+					id: _id,
+					ctn: _ctn
+				}
+				_order.unshift(_id);
+				store.emit(constants.CHANGE_EVENT);
 			}
-			_order.unshift(_id);
-			store.emit(constants.CHANGE_EVENT);
 		},
+
 		edit: function(action){
 			_currentID = action.data;
 			store.emit(constants.CHANGE_EVENT);
 		},
 
-		save: function(action) {
-			var _id = action.data.key;
+		modify: function(action){
 			var _ctn = action.data.ctn;
-			_list[_id].ctn = _ctn;
-			_currentID = null;
-			_order.unsift(_id);
-			store.emit(constants.CHANGE_EVENT);
+			if(_ctn !== ''){
+			var _id = action.data.key;			
+				_list[_id].ctn = _ctn;
+				_currentID = null;
+				_order.unshift(_id);
+				store.emit(constants.CHANGE_EVENT);
+			}
 		},
 
 		remove: function(action){
-			var _id = action.data.key;
+			var _id = action.data;
 			delete _list[_id];
-			// _order.(_id);
+			for(var i = 0; i < _order.length; i++){
+				if(_order[i] === _id){
+					_order.splice(i, 1);
+				}
+			}
 			store.emit(constants.CHANGE_EVENT);
 		}
 	})
