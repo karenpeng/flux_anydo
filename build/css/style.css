@@ -53,6 +53,9 @@ body {
 .archive button:hover, .archive button:active, .active button:hover {
   font-size: 1em; }
 
+.active button:visited {
+  font-size: 11px; }
+
 .item {
   height: 48px;
   line-height: 48px;
