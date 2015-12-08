@@ -19992,22 +19992,22 @@ var _currentTarget;
 var thredshould = 24;
 
 var _onMoveStart = function(key) {
-	return function(event) {
-		_currentTarget = event.target;
+	return function(e) {
+		_currentTarget = e.target;
 		_currentPosition = {
-			x: event.clientX || event.touches[0] && event.touches[0].clientX,
-			y: event.clientY || event.touches[0] && event.touches[0].clientY
+			x: e.clientX || e.touches[0] && e.touches[0].clientX,
+			y: e.clientY || e.touches[0] && e.touches[0].clientY
 		};
 	};
 };
 
 var _onMoveEnd = function(key) {
-	return function(event) {
-		if(event.target !== _currentTarget) return;
+	return function(e) {
+		if(e.target !== _currentTarget) return;
 		var _prePosition = _currentPosition;
 		_currentPosition = {
-			x: event.clientX || event.changedTouches[0] && event.changedTouches[0].clientX,
-			y: event.clientY || event.changedTouches[0] && event.changedTouches[0].clientY
+			x: e.clientX || e.changedTouches[0] && e.changedTouches[0].clientX,
+			y: e.clientY || e.changedTouches[0] && e.changedTouches[0].clientY
 		};
 		var dX = _currentPosition.x - _prePosition.x;
 		if(dX > thredshould) {
