@@ -19952,7 +19952,7 @@ var InputBox = React.createClass({
 				className: 'input-box',
 				placeholder: 'what\'s on your mind?',
 				onFocus: function(e) {
-					e.target.className = 'input-box active';
+					e.target.className = 'input-box editing';
 					actions.inputting();
 				},
 				onBlur: function(e) {
@@ -20049,7 +20049,7 @@ var List = React.createClass({
 							onMouseUp: _onMoveEnd(key)
 						}, store.getItem(key).ctn):
 				r.input({
-					className: classNames('editing', 'item', 'input-box', 'active'),
+					className: classNames('editing', 'item', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e){
 						actions.modify({
