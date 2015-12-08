@@ -20,13 +20,18 @@ var InputBox = React.createClass({
 		
 		return r.div({}, [
 			r.input({
+				className: 'input-box',
 				placeholder: 'what\'s in your mind?',
+				onFocus: function(e) {
+					e.target.className = 'input-box active';
+				},
 				onBlur: function(e) {
 					actions.add({
 						key: generateId(),
 						ctn: e.target.value
 					});
 					e.target.value = '';
+					e.target.className = 'input-box';
 				},
 				onKeyUp: function(e){
 					if(e.keyCode === 13){

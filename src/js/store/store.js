@@ -8,6 +8,7 @@ var assign = require('object-assign');
 var _currentID = null;
 var _list = {};
 var _order = [];
+var _archive = [];
 
 var store = assign({}, EventEmitter.prototype, {
 	getList: function(){
@@ -18,6 +19,9 @@ var store = assign({}, EventEmitter.prototype, {
 	},
 	getOrder: function(){
 		return _order;
+	},
+	getArchive: function(){
+		return _archive;
 	},
 	getCurrentKey: function(){
 		return _currentID;
@@ -55,11 +59,27 @@ var store = assign({}, EventEmitter.prototype, {
 		remove: function(action){
 			var _id = action.data;
 			delete _list[_id];
-			for(var i = 0; i < _order.length; i++){
-				if(_order[i] === _id){
-					_order.splice(i, 1);
+			for(var i = 0; i < _archive.length; i++){
+				if(_archive[i] === _id){
+					_archive.splice(i, 1);
+					break;
 				}
 			}
+			store.emit(constants.CHANGE_EVENT);
+		},
+
+		archive: function(action){
+			var _id = action.data;
+			var hold;
+			for(var i = 0; i <_order.length; i++){
+				if(_order[i] === _id){
+					hold = _order[i];
+					_order.splice(i, 1);
+					break;
+				}
+			}
+			_currentID = null;
+			_archive.unshift(hold);
 			store.emit(constants.CHANGE_EVENT);
 		}
 	})

@@ -1,9 +1,70 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  margin: 0;
+  padding: 0; }
+
 body {
   font: 100% Helvetica, sans-serif;
   color: #333; }
 
-button {
-  float: right; }
+.input-box {
+  height: 48px;
+  width: 94%;
+  outline: none;
+  padding: 0 3%;
+  border-right: 0;
+  border-left: 0;
+  transition: 0.2s all linear;
+  font-size: 1rem; }
+
+.input-box.active {
+  border-color: #FFF;
+  box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
+  outline: none; }
+
+.input-box.item {
+  border-top: 0px; }
+
+.archive button {
+  position: absolute;
+  border: 0;
+  background: 0;
+  top: 0;
+  right: 0%;
+  height: 48px;
+  width: 48px; }
+
+.archive button:hover, .archive button:active {
+  background-color: #ccc; }
 
 .item {
-  height: 60px; }
+  height: 48px;
+  line-height: 48px;
+  position: relative;
+  transition: 0.2s all linear;
+  padding: 0 3%;
+  border-bottom: 1px solid #efefef; }
+
+.item:nth-clild(2n) {
+  background-color: #EFEFEF; }
+
+.archive {
+  color: #ccc; }
+
+.archive .msg-content {
+  text-decoration: line-through; }
+
+.msg-content {
+  overflow: hidden; }
+
+.close-btn {
+  opacity: 0;
+  height: 0px;
+  overflow: hidden;
+  transition: 0.2s all linear; }
+
+.archive .close-btn {
+  opacity: 1;
+  height: 24px; }

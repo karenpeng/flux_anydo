@@ -5,7 +5,8 @@ var ItemConstants = {
   	'add',
     'edit',
     'modify',
-    'remove'
+    'remove',
+    'archive'
   ],
   CHANGE_EVENT : 'change'
 };
