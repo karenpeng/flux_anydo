@@ -12,6 +12,12 @@ $primary-color: #333;
   box-shadow:         $param;
 }
 
+@mixin boxsizing(){
+	-moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
 body, html{
 	width: 100%;
 	height: 100%;
@@ -75,6 +81,7 @@ body {
 
 .active.item, .archive.item{
 	border-bottom: 1px solid #efefef;
+	@include boxwizing;
 }
 
 .item:nth-clild(2n) {
