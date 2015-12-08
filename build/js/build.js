@@ -20031,23 +20031,34 @@ var List = React.createClass({
 
 	render: function() {
 
-		var msgOrder = store.getOrder();
+		var msgActive = store.getActive();
 		var msgArchive = store.getArchive();
 		var crtKey = store.getCurrentKey();
 		
 		var domList = [];
 
-		msgOrder.forEach(function(key){
+		msgActive.forEach(function(key, index){
 
 			domList.push(
 				key !== crtKey ?
 				r.div({
-							className: classNames('active', 'item'),
-							onTouchStart: _onMoveStart(key),
-							onTouchEnd: _onMoveEnd(key),
-							onMouseDown: _onMoveStart(key),
-							onMouseUp: _onMoveEnd(key)
-						}, store.getItem(key).ctn):
+							className: classNames('active', 'item')
+						},[
+							r.div({
+								className: 'msg-content',
+								onTouchStart: _onMoveStart(key),
+								onTouchEnd: _onMoveEnd(key),
+								onMouseDown: _onMoveStart(key),
+								onMouseUp: _onMoveEnd(key)
+							}, store.getItem(key).ctn),
+							r.button({
+								className: index === 0 ? 'hiddenBtn' : 'showNtn',
+								onClick: function(){
+									actions.reorder(key);
+								}
+							}, '^')
+
+						]):
 				r.input({
 					className: classNames('editing', 'item', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
@@ -20120,7 +20131,8 @@ var ItemConstants = {
     'remove',
     'archive',
     'init',
-    'inputting'
+    'inputting',
+    'reorder'
   ],
   CHANGE_EVENT : 'change',
   LS_KEY : 'KN_TODOMVC'
@@ -20169,14 +20181,14 @@ var LocalStorageUtil = require('../utils/localStorageUtil');
 
 var _currentID = null;
 var _list = {};
-var _order = [];
+var _active = [];
 var _archive = [];
 
 var _saveData = function() {
 	LocalStorageUtil.save({
 		currentID: _currentID,
 		list: _list,
-		order: _order,
+		active: _active,
 		archive: _archive
 	});
 };
@@ -20185,7 +20197,7 @@ var _loadData = function() {
 	var tmpData = LocalStorageUtil.load();
 	_currentID = tmpData.currentID || _currentID;
 	_list = tmpData.list || _list,
-	_order = tmpData.order || _order,
+	_active = tmpData.active || _active,
 	_archive = tmpData.archive || _archive
 };
 
@@ -20196,8 +20208,8 @@ var store = assign({}, EventEmitter.prototype, {
 	getItem: function(id){
 		return _list[id];
 	},
-	getOrder: function(){
-		return _order;
+	getActive: function(){
+		return _active;
 	},
 	getArchive: function(){
 		return _archive;
@@ -20228,9 +20240,21 @@ var store = assign({}, EventEmitter.prototype, {
 					id: _id,
 					ctn: _ctn
 				}
-				_order.unshift(_id);
+				_active.unshift(_id);
 				store.emitChange();
 			}
+		},
+
+		reorder: function(action){
+			var _id = action.data;
+			for(var i = 1; i < _active.length; i++){
+				if(_active[i] === _id){
+					var tmp = _active[i-1];
+					_active[i-1] = _active[i];
+					_active[i] = tmp;
+				}
+			}
+			store.emitChange();
 		},
 
 		edit: function(action){
@@ -20263,10 +20287,10 @@ var store = assign({}, EventEmitter.prototype, {
 		archive: function(action){
 			var _id = action.data;
 			var hold;
-			for(var i = 0; i <_order.length; i++){
-				if(_order[i] === _id){
-					hold = _order[i];
-					_order.splice(i, 1);
+			for(var i = 0; i <_active.length; i++){
+				if(_active[i] === _id){
+					hold = _active[i];
+					_active.splice(i, 1);
 					break;
 				}
 			}

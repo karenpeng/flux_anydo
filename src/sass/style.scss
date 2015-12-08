@@ -12,10 +12,10 @@ $primary-color: #333;
   box-shadow:         $param;
 }
 
-@mixin boxsizing(){
-	-moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
+@mixin boxsizing($param){
+	-moz-box-sizing:    $param;
+  -webkit-box-sizing: $param;
+  box-sizing:        $param;
 }
 
 body, html{
@@ -54,9 +54,10 @@ body {
 .input-box.item {
 	border-top: 0px;
 	@include transition(0.2s all linear);
+	@include boxsizing(content-box);
 }
 
-.archive button {
+.archive button, .active button {
   position: absolute;
   border: 0;
   background: 0;
@@ -68,8 +69,8 @@ body {
   color: #999;
 }
 
-.archive button:hover, .archive button:active {
-	font-size: 2em;
+.archive button:hover, .archive button:active, .active button:hover {
+	font-size: 1em;
 }
 
 .item{
@@ -83,6 +84,10 @@ body {
 
 .active.item, .archive.item{
 	border-bottom: 1px solid #efefef;
+}
+
+.active.item{
+	@include boxsizing(border-box);
 }
 
 .item:nth-clild(2n) {
@@ -101,14 +106,10 @@ body {
 	overflow: hidden;
 }
 
-.close-btn {
-	opacity: 0;
-	height: 0px;
-	overflow: hidden;
-	@include transition(0.2s all linear);
+.hiddenBtn{
+	display: none;
 }
 
-.archive .close-btn {
-	opacity: 1;
-	height: 24px;
+.showBtn{
+	display: block;
 }

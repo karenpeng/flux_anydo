@@ -49,23 +49,34 @@ var List = React.createClass({
 
 	render: function() {
 
-		var msgOrder = store.getOrder();
+		var msgActive = store.getActive();
 		var msgArchive = store.getArchive();
 		var crtKey = store.getCurrentKey();
 		
 		var domList = [];
 
-		msgOrder.forEach(function(key){
+		msgActive.forEach(function(key, index){
 
 			domList.push(
 				key !== crtKey ?
 				r.div({
-							className: classNames('active', 'item'),
-							onTouchStart: _onMoveStart(key),
-							onTouchEnd: _onMoveEnd(key),
-							onMouseDown: _onMoveStart(key),
-							onMouseUp: _onMoveEnd(key)
-						}, store.getItem(key).ctn):
+							className: classNames('active', 'item')
+						},[
+							r.div({
+								className: 'msg-content',
+								onTouchStart: _onMoveStart(key),
+								onTouchEnd: _onMoveEnd(key),
+								onMouseDown: _onMoveStart(key),
+								onMouseUp: _onMoveEnd(key)
+							}, store.getItem(key).ctn),
+							r.button({
+								className: index === 0 ? 'hiddenBtn' : 'showNtn',
+								onClick: function(){
+									actions.reorder(key);
+								}
+							}, '^')
+
+						]):
 				r.input({
 					className: classNames('editing', 'item', 'input-box'),
 					defaultValue: store.getItem(key).ctn,

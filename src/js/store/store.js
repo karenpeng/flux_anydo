@@ -8,14 +8,14 @@ var LocalStorageUtil = require('../utils/localStorageUtil');
 
 var _currentID = null;
 var _list = {};
-var _order = [];
+var _active = [];
 var _archive = [];
 
 var _saveData = function() {
 	LocalStorageUtil.save({
 		currentID: _currentID,
 		list: _list,
-		order: _order,
+		active: _active,
 		archive: _archive
 	});
 };
@@ -24,7 +24,7 @@ var _loadData = function() {
 	var tmpData = LocalStorageUtil.load();
 	_currentID = tmpData.currentID || _currentID;
 	_list = tmpData.list || _list,
-	_order = tmpData.order || _order,
+	_active = tmpData.active || _active,
 	_archive = tmpData.archive || _archive
 };
 
@@ -35,8 +35,8 @@ var store = assign({}, EventEmitter.prototype, {
 	getItem: function(id){
 		return _list[id];
 	},
-	getOrder: function(){
-		return _order;
+	getActive: function(){
+		return _active;
 	},
 	getArchive: function(){
 		return _archive;
@@ -67,9 +67,21 @@ var store = assign({}, EventEmitter.prototype, {
 					id: _id,
 					ctn: _ctn
 				}
-				_order.unshift(_id);
+				_active.unshift(_id);
 				store.emitChange();
 			}
+		},
+
+		reorder: function(action){
+			var _id = action.data;
+			for(var i = 1; i < _active.length; i++){
+				if(_active[i] === _id){
+					var tmp = _active[i-1];
+					_active[i-1] = _active[i];
+					_active[i] = tmp;
+				}
+			}
+			store.emitChange();
 		},
 
 		edit: function(action){
@@ -102,10 +114,10 @@ var store = assign({}, EventEmitter.prototype, {
 		archive: function(action){
 			var _id = action.data;
 			var hold;
-			for(var i = 0; i <_order.length; i++){
-				if(_order[i] === _id){
-					hold = _order[i];
-					_order.splice(i, 1);
+			for(var i = 0; i <_active.length; i++){
+				if(_active[i] === _id){
+					hold = _active[i];
+					_active.splice(i, 1);
 					break;
 				}
 			}

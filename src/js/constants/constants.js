@@ -8,7 +8,8 @@ var ItemConstants = {
     'remove',
     'archive',
     'init',
-    'inputting'
+    'inputting',
+    'reorder'
   ],
   CHANGE_EVENT : 'change',
   LS_KEY : 'KN_TODOMVC'
