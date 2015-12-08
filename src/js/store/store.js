@@ -1,14 +1,32 @@
 'use strict';
 
-var FluxUtil = require('../utils/fluxUtil');
+var assign = require('object-assign');
 var constants = require('../constants/constants');
 var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+var FluxUtil = require('../utils/fluxUtil');
+var LocalStorageUtil = require('../utils/localStorageUtil');
 
 var _currentID = null;
 var _list = {};
 var _order = [];
 var _archive = [];
+
+var _saveData = function() {
+	LocalStorageUtil.save({
+		currentID: _currentID,
+		list: _list,
+		order: _order,
+		archive: _archive
+	});
+};
+
+var _loadData = function() {
+	var tmpData = LocalStorageUtil.load();
+	_currentID = tmpData.currentID || _currentID;
+	_list = tmpData.list || _list,
+	_order = tmpData.order || _order,
+	_archive = tmpData.archive || _archive
+};
 
 var store = assign({}, EventEmitter.prototype, {
 	getList: function(){
@@ -26,8 +44,16 @@ var store = assign({}, EventEmitter.prototype, {
 	getCurrentKey: function(){
 		return _currentID;
 	},
-
+	emitChange: function() {
+		_saveData();
+		store.emit(constants.CHANGE_EVENT);
+	},
 	dispatcherIndex: FluxUtil.registerActionHandler({
+
+		init: function(){
+			_loadData();
+		},
+
 		add: function(action){		
 			var _ctn = action.data.ctn;
 			if(_ctn !== ''){
@@ -37,13 +63,13 @@ var store = assign({}, EventEmitter.prototype, {
 					ctn: _ctn
 				}
 				_order.unshift(_id);
-				store.emit(constants.CHANGE_EVENT);
+				store.emitChange();
 			}
 		},
 
 		edit: function(action){
 			_currentID = action.data;
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		},
 
 		modify: function(action){
@@ -52,7 +78,7 @@ var store = assign({}, EventEmitter.prototype, {
 			var _id = action.data.key;			
 				_list[_id].ctn = _ctn;
 				_currentID = null;
-				store.emit(constants.CHANGE_EVENT);
+				store.emitChange();
 			}
 		},
 
@@ -65,7 +91,7 @@ var store = assign({}, EventEmitter.prototype, {
 					break;
 				}
 			}
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		},
 
 		archive: function(action){
@@ -80,7 +106,7 @@ var store = assign({}, EventEmitter.prototype, {
 			}
 			_currentID = null;
 			_archive.unshift(hold);
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		}
 	})
 })

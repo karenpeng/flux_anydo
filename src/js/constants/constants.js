@@ -6,9 +6,11 @@ var ItemConstants = {
     'edit',
     'modify',
     'remove',
-    'archive'
+    'archive',
+    'init'
   ],
-  CHANGE_EVENT : 'change'
+  CHANGE_EVENT : 'change',
+  LS_KEY : 'KN_TODOMVC'
 };
 
 module.exports = ItemConstants;

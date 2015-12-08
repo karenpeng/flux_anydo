@@ -44,10 +44,12 @@ body {
   right: 0%;
   height: 48px;
   width: 48px;
+  transition: 0.2s all linear;
+  color: #ccc;
 }
 
 .archive button:hover, .archive button:active {
-	background-color: #ccc;
+	font-size: 2em;
 }
 .item{
 	height: 48px;

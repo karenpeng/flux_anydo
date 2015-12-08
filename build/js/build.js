@@ -19939,6 +19939,7 @@ var InputBox = React.createClass({
 	displayName: 'InputBox',
 
 	componentWillMount: function(){
+		actions.init();
 		store.on(constants.CHANGE_EVENT, function(){
 			this.forceUpdate();
 		}.bind(this));
@@ -19977,7 +19978,7 @@ var InputBox = React.createClass({
 });
 
 module.exports = InputBox;
-},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"../utils/mathUtil":176,"r-dom":8,"react":166}],169:[function(require,module,exports){
+},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"../utils/mathUtil":177,"r-dom":8,"react":166}],169:[function(require,module,exports){
 'use strict';
 
 var r = require('r-dom');
@@ -20116,9 +20117,11 @@ var ItemConstants = {
     'edit',
     'modify',
     'remove',
-    'archive'
+    'archive',
+    'init'
   ],
-  CHANGE_EVENT : 'change'
+  CHANGE_EVENT : 'change',
+  LS_KEY : 'KN_TODOMVC'
 };
 
 module.exports = ItemConstants;
@@ -20156,15 +20159,33 @@ ReactDom.render(r(App), document.getElementById('container'));
 },{"./components/app":170,"r-dom":8,"react-dom":10}],174:[function(require,module,exports){
 'use strict';
 
-var FluxUtil = require('../utils/fluxUtil');
+var assign = require('object-assign');
 var constants = require('../constants/constants');
 var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+var FluxUtil = require('../utils/fluxUtil');
+var LocalStorageUtil = require('../utils/localStorageUtil');
 
 var _currentID = null;
 var _list = {};
 var _order = [];
 var _archive = [];
+
+var _saveData = function() {
+	LocalStorageUtil.save({
+		currentID: _currentID,
+		list: _list,
+		order: _order,
+		archive: _archive
+	});
+};
+
+var _loadData = function() {
+	var tmpData = LocalStorageUtil.load();
+	_currentID = tmpData.currentID || _currentID;
+	_list = tmpData.list || _list,
+	_order = tmpData.order || _order,
+	_archive = tmpData.archive || _archive
+};
 
 var store = assign({}, EventEmitter.prototype, {
 	getList: function(){
@@ -20182,8 +20203,16 @@ var store = assign({}, EventEmitter.prototype, {
 	getCurrentKey: function(){
 		return _currentID;
 	},
-
+	emitChange: function() {
+		_saveData();
+		store.emit(constants.CHANGE_EVENT);
+	},
 	dispatcherIndex: FluxUtil.registerActionHandler({
+
+		init: function(){
+			_loadData();
+		},
+
 		add: function(action){		
 			var _ctn = action.data.ctn;
 			if(_ctn !== ''){
@@ -20193,13 +20222,13 @@ var store = assign({}, EventEmitter.prototype, {
 					ctn: _ctn
 				}
 				_order.unshift(_id);
-				store.emit(constants.CHANGE_EVENT);
+				store.emitChange();
 			}
 		},
 
 		edit: function(action){
 			_currentID = action.data;
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		},
 
 		modify: function(action){
@@ -20208,7 +20237,7 @@ var store = assign({}, EventEmitter.prototype, {
 			var _id = action.data.key;			
 				_list[_id].ctn = _ctn;
 				_currentID = null;
-				store.emit(constants.CHANGE_EVENT);
+				store.emitChange();
 			}
 		},
 
@@ -20221,7 +20250,7 @@ var store = assign({}, EventEmitter.prototype, {
 					break;
 				}
 			}
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		},
 
 		archive: function(action){
@@ -20236,13 +20265,13 @@ var store = assign({}, EventEmitter.prototype, {
 			}
 			_currentID = null;
 			_archive.unshift(hold);
-			store.emit(constants.CHANGE_EVENT);
+			store.emitChange();
 		}
 	})
 })
 
 module.exports = store;
-},{"../constants/constants":171,"../utils/fluxUtil":175,"events":1,"object-assign":7}],175:[function(require,module,exports){
+},{"../constants/constants":171,"../utils/fluxUtil":175,"../utils/localStorageUtil":176,"events":1,"object-assign":7}],175:[function(require,module,exports){
 'use strict';
 
 var AppDispatcher = require('../dispatchers/dispatchers');
@@ -20322,6 +20351,35 @@ var FluxUtil = {
 
 module.exports = FluxUtil;
 },{"../dispatchers/dispatchers":172}],176:[function(require,module,exports){
+'use strict';
+
+var constants = require('../constants/constants');
+var store = require('../store/store');
+
+var LocalStorageUtil = {
+	save: function(obj) {
+		if (!localStorage) return;
+		try {
+			localStorage[constants.LS_KEY] = btoa(JSON.stringify(obj));
+		} catch(e) {
+			console.error(e);
+		}
+	},
+
+	load: function() {
+		if (!localStorage || !localStorage[constants.LS_KEY]) return '';
+		try {
+			return JSON.parse(atob(localStorage[constants.LS_KEY]));
+		} catch(e) {
+			console.error(e);
+		}
+		return '';
+	}
+};
+
+
+module.exports = LocalStorageUtil;
+},{"../constants/constants":171,"../store/store":174}],177:[function(require,module,exports){
 'use strict';
 
 exports.generateId = function(){

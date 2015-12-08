@@ -25,7 +25,8 @@ body {
   outline: none; }
 
 .input-box.item {
-  border-top: 0px; }
+  border-top: 0px;
+  transition: 0.2s all linear; }
 
 .archive button {
   position: absolute;
@@ -34,10 +35,12 @@ body {
   top: 0;
   right: 0%;
   height: 48px;
-  width: 48px; }
+  width: 48px;
+  transition: 0.2s all linear;
+  color: #ccc; }
 
 .archive button:hover, .archive button:active {
-  background-color: #ccc; }
+  font-size: 2em; }
 
 .item {
   height: 48px;

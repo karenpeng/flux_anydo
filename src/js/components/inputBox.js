@@ -11,6 +11,7 @@ var InputBox = React.createClass({
 	displayName: 'InputBox',
 
 	componentWillMount: function(){
+		actions.init();
 		store.on(constants.CHANGE_EVENT, function(){
 			this.forceUpdate();
 		}.bind(this));
