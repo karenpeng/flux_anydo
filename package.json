@@ -28,7 +28,9 @@
     "r-dom": "^2.1.0",
     "react": "0.14.x",
     "react-dom": "^0.14.3",
-    "react-hammerjs": "^0.4.3"
+    "react-hammerjs": "^0.4.3",
+    "react-swipe": "^3.0.0",
+    "swipe-js-iso": "^2.0.1"
   },
   "author": "",
   "license": "ISC"

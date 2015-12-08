@@ -48,7 +48,6 @@ var store = assign({}, EventEmitter.prototype, {
 			var _id = action.data.key;			
 				_list[_id].ctn = _ctn;
 				_currentID = null;
-				_order.unshift(_id);
 				store.emit(constants.CHANGE_EVENT);
 			}
 		},

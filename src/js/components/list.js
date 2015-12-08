@@ -25,20 +25,35 @@ var List = React.createClass({
 
 		msgOrder.forEach(function(key){
 
+			var test = store.getItem(key).ctn
+
 			domList.push(
 				key !== crtKey ?
 				r.div({},[
 					r(Hammer, {
-							onSwipte: function(){
+						// options:{
+						// 	touchAction:true,
+						//     recognizers: {
+					 //        tap: {
+				  //           time: 600,
+				  //           threshold: 100
+					 //        }
+						//     }
+						// 	},
+							onSwipe: function(){
 								console.log('ouch!')
+								test = 'swiping'
+							},
+							onTap: function(){
+								console.log('hum?')
 							}
 						}, [
 							r.div({
-								className: 'item',
-								onClick: function(){
-									actions.edit(key);
-								}
-							}, store.getItem(key).ctn)
+								className: 'item'//,
+								// onMouseUp: function(){
+								// 	actions.edit(key);
+								// }
+							}, test)
 						]),
 						r.button({
 							onClick: function(){
