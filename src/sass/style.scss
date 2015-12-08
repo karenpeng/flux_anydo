@@ -47,6 +47,7 @@ body {
   @include shadow(0px 0px 4px rgba(0, 128, 255, 0.5));
   outline: none;
   border: 1px solid rgba(0, 128, 255, 1);
+  @include boxsizing;
 }
 
 .input-box.item {
@@ -81,7 +82,7 @@ body {
 
 .active.item, .archive.item{
 	border-bottom: 1px solid #efefef;
-	@include boxwizing;
+	@include boxsizing;
 }
 
 .item:nth-clild(2n) {
