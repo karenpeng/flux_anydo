@@ -70,8 +70,11 @@ body {
 	position: relative;
 	@include transition(0.2s all linear);
 	padding: 0 3%;
-	border-bottom: 1px solid #efefef;
 	background-color: #FAFAFA;
+}
+
+.active item, .archive item{
+	border-bottom: 1px solid #efefef;
 }
 
 .item:nth-clild(2n) {
