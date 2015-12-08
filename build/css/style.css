@@ -57,7 +57,7 @@ body {
   padding: 0 3%;
   background-color: #FAFAFA; }
 
-.active item, .archive item {
+.active.item, .archive.item {
   border-bottom: 1px solid #efefef; }
 
 .item:nth-clild(2n) {
