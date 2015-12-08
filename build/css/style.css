@@ -25,7 +25,8 @@ body {
   -moz-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
   -webkit-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
   box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
-  outline: none; }
+  outline: none;
+  border: 1px solid #0080ff; }
 
 .input-box.item {
   border-top: 0px;
@@ -54,7 +55,8 @@ body {
   -webkit-transition: 0.2s all linear;
   transition: 0.2s all linear;
   padding: 0 3%;
-  border-bottom: 1px solid #efefef; }
+  border-bottom: 1px solid #efefef;
+  background-color: #FAFAFA; }
 
 .item:nth-clild(2n) {
   background-color: #EFEFEF; }

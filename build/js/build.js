@@ -19953,6 +19953,7 @@ var InputBox = React.createClass({
 				placeholder: 'what\'s on your mind?',
 				onFocus: function(e) {
 					e.target.className = 'input-box active';
+					actions.inputting();
 				},
 				onBlur: function(e) {
 					actions.add({
@@ -20118,7 +20119,8 @@ var ItemConstants = {
     'modify',
     'remove',
     'archive',
-    'init'
+    'init',
+    'inputting'
   ],
   CHANGE_EVENT : 'change',
   LS_KEY : 'KN_TODOMVC'
@@ -20211,6 +20213,11 @@ var store = assign({}, EventEmitter.prototype, {
 
 		init: function(){
 			_loadData();
+		},
+
+		inputting: function(){
+			_currentID = null;
+			store.emitChange();
 		},
 
 		add: function(action){		

@@ -54,6 +54,11 @@ var store = assign({}, EventEmitter.prototype, {
 			_loadData();
 		},
 
+		inputting: function(){
+			_currentID = null;
+			store.emitChange();
+		},
+
 		add: function(action){		
 			var _ctn = action.data.ctn;
 			if(_ctn !== ''){

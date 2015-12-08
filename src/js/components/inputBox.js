@@ -25,6 +25,7 @@ var InputBox = React.createClass({
 				placeholder: 'what\'s on your mind?',
 				onFocus: function(e) {
 					e.target.className = 'input-box active';
+					actions.inputting();
 				},
 				onBlur: function(e) {
 					actions.add({
