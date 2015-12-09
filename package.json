@@ -1,16 +1,15 @@
 {
-  "name": "new",
+  "name": "flux_anydo",
   "version": "1.0.0",
-  "description": "",
+  "description": "a mobile app that allows you to create, edit, view short notes",
   "main": "gulpfile.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "devDependencies": {
-    "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.1.3",
@@ -19,7 +18,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-buffer": "0.0.2",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.4.0"
+    "watchify": "^3.4.0",
+    "gulp-sass": "^2.1.0"
   },
   "dependencies": {
     "classnames": "^2.2.1",
@@ -29,6 +29,6 @@
     "react": "0.14.x",
     "react-dom": "^0.14.3"
   },
-  "author": "",
+  "author": "Karen Peng",
   "license": "ISC"
 }
