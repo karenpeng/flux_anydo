@@ -19984,6 +19984,7 @@ module.exports = InputBox;
 
 var r = require('r-dom');
 var React = require('react');
+var ReactDom = require('react-dom');
 var actions = require('../actions/actions');
 var store = require('../store/store');
 var constants = require('../constants/constants');
@@ -20020,6 +20021,27 @@ var _onMoveEnd = function(key) {
 	}
 };
 
+var _setFocus = function(elem) {
+	var elemLen = elem.value.length;
+  // For IE Only
+  if (document.selection) {
+      // Set focus
+      elem.focus();
+      // Use IE Ranges
+      var oSel = document.selection.createRange();
+      // Reset position to 0 & then set at end
+      oSel.moveStart('character', -elemLen);
+      oSel.moveStart('character', elemLen);
+      oSel.moveEnd('character', 0);
+      oSel.select();
+  } else if (elem.selectionStart || elem.selectionStart == '0') {
+      // Firefox/Chrome
+      elem.selectionStart = elemLen;
+      elem.selectionEnd = elemLen;
+      elem.focus();
+  }
+}
+
 var List = React.createClass({
 	displayName: 'List',
 
@@ -20027,6 +20049,16 @@ var List = React.createClass({
 		store.on(constants.CHANGE_EVENT, function(){
 			this.forceUpdate();
 		}.bind(this));
+	},
+
+	componentDidMount: function(){
+ 		var _input = ReactDom.findDOMNode(this.refs.editItem);
+ 		_input && _setFocus(_input);
+	},
+
+	componentDidUpdate: function(){
+ 		var _input = ReactDom.findDOMNode(this.refs.editItem);
+ 		_input && _setFocus(_input);
 	},
 
 	render: function() {
@@ -20052,7 +20084,7 @@ var List = React.createClass({
 								onMouseUp: _onMoveEnd(key)
 							}, store.getItem(key).ctn),
 							r.button({
-								className: index === 0 ? 'hiddenBtn' : 'showNtn',
+								className: index === 0 ? 'hiddenBtn' : 'showBtn',
 								onClick: function(){
 									actions.reorder(key);
 								}
@@ -20060,6 +20092,7 @@ var List = React.createClass({
 
 						]):
 				r.input({
+					ref: 'editItem',
 					className: classNames('editing', 'item', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e){
@@ -20100,7 +20133,7 @@ var List = React.createClass({
 
 module.exports = List;
 
-},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"classnames":3,"r-dom":8,"react":166}],170:[function(require,module,exports){
+},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"classnames":3,"r-dom":8,"react":166,"react-dom":10}],170:[function(require,module,exports){
 'use strict';
 
 var r = require('r-dom');

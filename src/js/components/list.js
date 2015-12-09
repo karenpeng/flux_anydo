@@ -1,11 +1,14 @@
 'use strict';
 
+var classNames = require('classnames');
 var r = require('r-dom');
 var React = require('react');
+var ReactDom = require('react-dom');
+
 var actions = require('../actions/actions');
-var store = require('../store/store');
 var constants = require('../constants/constants');
-var classNames = require('classnames');
+var store = require('../store/store');
+var viewUtil = require('../util/viewUtil');
 
 var _currentPosition;
 var _currentTarget;
@@ -47,6 +50,16 @@ var List = React.createClass({
 		}.bind(this));
 	},
 
+	componentDidMount: function(){
+ 		var _input = ReactDom.findDOMNode(this.refs.editItem);
+ 		_input && viewUtil.setFocus(_input);
+	},
+
+	componentDidUpdate: function(){
+ 		var _input = ReactDom.findDOMNode(this.refs.editItem);
+ 		_input && viewUtil.setFocus(_input);
+	},
+
 	render: function() {
 
 		var msgActive = store.getActive();
@@ -70,7 +83,7 @@ var List = React.createClass({
 								onMouseUp: _onMoveEnd(key)
 							}, store.getItem(key).ctn),
 							r.button({
-								className: index === 0 ? 'hiddenBtn' : 'showNtn',
+								className: index === 0 ? 'hiddenBtn' : 'showBtn',
 								onClick: function(){
 									actions.reorder(key);
 								}
@@ -78,6 +91,7 @@ var List = React.createClass({
 
 						]):
 				r.input({
+					ref: 'editItem',
 					className: classNames('editing', 'item', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e){
