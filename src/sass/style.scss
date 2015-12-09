@@ -7,15 +7,15 @@ $primary-color: #333;
 }
 
 @mixin shadow($param){
-	-moz-box-shadow:    $param;
+	-moz-box-shadow: $param;
   -webkit-box-shadow: $param;
-  box-shadow:         $param;
+  box-shadow: $param;
 }
 
 @mixin boxsizing($param){
-	-moz-box-sizing:    $param;
+	-moz-box-sizing: $param;
   -webkit-box-sizing: $param;
-  box-sizing:        $param;
+  box-sizing: $param;
 }
 
 body, html{
@@ -36,25 +36,22 @@ body {
   width: 94%;
   outline: none;
   padding: 0 3%;
-  border-right: 0;
-  border-left: 0;
-  @include transition(0.2s all linear);
+  border: 1px solid #FFF;
   font-size: 1rem;
+  @include transition(0.2s all linear);
 }
 
 .input-box.editing {
   border-color: #FFF;
-  @include shadow(0px 0px 4px rgba(0, 128, 255, 0.5));
   outline: none;
   border: 1px solid rgba(0, 128, 255, 1);
   z-index: 1;
   position: relative;
+  @include shadow(0px 0px 4px rgba(0, 128, 255, 0.5));
 }
 
-.input-box.item {
-	border-top: 0px;
-	@include transition(0.2s all linear);
-	@include boxsizing(content-box);
+.item-input {
+  background-color: #FAFAFA;
 }
 
 .archive button, .active button {
@@ -65,8 +62,8 @@ body {
   right: 0%;
   height: 48px;
   width: 48px;
-  @include transition(0.2s all linear);
   color: #999;
+  @include transition(0.2s all linear);
 }
 
 .archive button:hover, .archive button:active, .active button:hover {
@@ -77,25 +74,15 @@ body {
 	font-size: 11px;
 }
 
-.item{
+.item {
 	height: 48px;
 	line-height: 48px;
 	position: relative;
-	@include transition(0.2s all linear);
 	padding: 0 3%;
+  border: 1px solid #FAFAFA;
+  border-bottom: 1px solid #efefef;
 	background-color: #FAFAFA;
-}
-
-.active.item, .archive.item{
-	border-bottom: 1px solid #efefef;
-}
-
-.active.item{
-	@include boxsizing(border-box);
-}
-
-.item:nth-clild(2n) {
-	background-color: #EFEFEF;
+  @include transition(0.2s all linear);
 }
 
 .archive {

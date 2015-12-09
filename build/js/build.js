@@ -19982,13 +19982,15 @@ module.exports = InputBox;
 },{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"../utils/mathUtil":177,"r-dom":8,"react":166}],169:[function(require,module,exports){
 'use strict';
 
+var classNames = require('classnames');
 var r = require('r-dom');
 var React = require('react');
 var ReactDom = require('react-dom');
+
 var actions = require('../actions/actions');
-var store = require('../store/store');
 var constants = require('../constants/constants');
-var classNames = require('classnames');
+var store = require('../store/store');
+var viewUtil = require('../utils/viewUtil');
 
 var _currentPosition;
 var _currentTarget;
@@ -20013,34 +20015,14 @@ var _onMoveEnd = function(key) {
 			y: e.clientY || e.changedTouches[0] && e.changedTouches[0].clientY
 		};
 		var dX = _currentPosition.x - _prePosition.x;
+		var dY = _currentPosition.y - _prePosition.y;
 		if(dX > thredshould) {
 			actions.archive(key);
-		} else {
+		} else if(dY < thredshould / 2) {
 			actions.edit(key);
 		}
 	}
 };
-
-var _setFocus = function(elem) {
-	var elemLen = elem.value.length;
-  // For IE Only
-  if (document.selection) {
-      // Set focus
-      elem.focus();
-      // Use IE Ranges
-      var oSel = document.selection.createRange();
-      // Reset position to 0 & then set at end
-      oSel.moveStart('character', -elemLen);
-      oSel.moveStart('character', elemLen);
-      oSel.moveEnd('character', 0);
-      oSel.select();
-  } else if (elem.selectionStart || elem.selectionStart == '0') {
-      // Firefox/Chrome
-      elem.selectionStart = elemLen;
-      elem.selectionEnd = elemLen;
-      elem.focus();
-  }
-}
 
 var List = React.createClass({
 	displayName: 'List',
@@ -20053,12 +20035,12 @@ var List = React.createClass({
 
 	componentDidMount: function(){
  		var _input = ReactDom.findDOMNode(this.refs.editItem);
- 		_input && _setFocus(_input);
+ 		_input && viewUtil.setFocus(_input);
 	},
 
 	componentDidUpdate: function(){
  		var _input = ReactDom.findDOMNode(this.refs.editItem);
- 		_input && _setFocus(_input);
+ 		_input && viewUtil.setFocus(_input);
 	},
 
 	render: function() {
@@ -20093,7 +20075,7 @@ var List = React.createClass({
 						]):
 				r.input({
 					ref: 'editItem',
-					className: classNames('editing', 'item', 'input-box'),
+					className: classNames('editing', 'item-input', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e){
 						actions.modify({
@@ -20133,7 +20115,7 @@ var List = React.createClass({
 
 module.exports = List;
 
-},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"classnames":3,"r-dom":8,"react":166,"react-dom":10}],170:[function(require,module,exports){
+},{"../actions/actions":167,"../constants/constants":171,"../store/store":174,"../utils/viewUtil":178,"classnames":3,"r-dom":8,"react":166,"react-dom":10}],170:[function(require,module,exports){
 'use strict';
 
 var r = require('r-dom');
@@ -20449,6 +20431,34 @@ module.exports = LocalStorageUtil;
 exports.generateId = function(){
 	return ((Math.random() + '').substr(2, 8) - 0).toString(36)
 }
+},{}],178:[function(require,module,exports){
+'use strict';
+
+var ViewUtil = {
+	setFocus: function(elem) {
+		var elemLen = elem.value.length;
+	  // For IE Only
+	  if (document.selection) {
+	      // Set focus
+	      elem.focus();
+	      // Use IE Ranges
+	      var oSel = document.selection.createRange();
+	      // Reset position to 0 & then set at end
+	      oSel.moveStart('character', -elemLen);
+	      oSel.moveStart('character', elemLen);
+	      oSel.moveEnd('character', 0);
+	      oSel.select();
+	  } else if (elem.selectionStart || elem.selectionStart == '0') {
+	      // Firefox/Chrome
+	      elem.selectionStart = elemLen;
+	      elem.selectionEnd = elemLen;
+	      elem.focus();
+	  }
+	}
+}
+
+module.exports = ViewUtil;
+
 },{}]},{},[173])
 
 

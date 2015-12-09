@@ -8,7 +8,7 @@ var ReactDom = require('react-dom');
 var actions = require('../actions/actions');
 var constants = require('../constants/constants');
 var store = require('../store/store');
-var viewUtil = require('../util/viewUtil');
+var viewUtil = require('../utils/viewUtil');
 
 var _currentPosition;
 var _currentTarget;
@@ -33,9 +33,10 @@ var _onMoveEnd = function(key) {
 			y: e.clientY || e.changedTouches[0] && e.changedTouches[0].clientY
 		};
 		var dX = _currentPosition.x - _prePosition.x;
+		var dY = _currentPosition.y - _prePosition.y;
 		if(dX > thredshould) {
 			actions.archive(key);
-		} else {
+		} else if(dY < thredshould / 2) {
 			actions.edit(key);
 		}
 	}
@@ -92,7 +93,7 @@ var List = React.createClass({
 						]):
 				r.input({
 					ref: 'editItem',
-					className: classNames('editing', 'item', 'input-box'),
+					className: classNames('editing', 'item-input', 'input-box'),
 					defaultValue: store.getItem(key).ctn,
 					onBlur: function(e){
 						actions.modify({

@@ -14,29 +14,23 @@ body {
   width: 94%;
   outline: none;
   padding: 0 3%;
-  border-right: 0;
-  border-left: 0;
+  border: 1px solid #FFF;
+  font-size: 1rem;
   -webkit-transition: 0.2s all linear;
-  transition: 0.2s all linear;
-  font-size: 1rem; }
+  transition: 0.2s all linear; }
 
 .input-box.editing {
   border-color: #FFF;
-  -moz-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
-  -webkit-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
-  box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
   outline: none;
   border: 1px solid #0080ff;
   z-index: 1;
-  position: relative; }
+  position: relative;
+  -moz-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
+  box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5); }
 
-.input-box.item {
-  border-top: 0px;
-  -webkit-transition: 0.2s all linear;
-  transition: 0.2s all linear;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box; }
+.item-input {
+  background-color: #FAFAFA; }
 
 .archive button, .active button {
   position: absolute;
@@ -46,9 +40,9 @@ body {
   right: 0%;
   height: 48px;
   width: 48px;
+  color: #999;
   -webkit-transition: 0.2s all linear;
-  transition: 0.2s all linear;
-  color: #999; }
+  transition: 0.2s all linear; }
 
 .archive button:hover, .archive button:active, .active button:hover {
   font-size: 1em; }
@@ -60,21 +54,12 @@ body {
   height: 48px;
   line-height: 48px;
   position: relative;
-  -webkit-transition: 0.2s all linear;
-  transition: 0.2s all linear;
   padding: 0 3%;
-  background-color: #FAFAFA; }
-
-.active.item, .archive.item {
-  border-bottom: 1px solid #efefef; }
-
-.active.item {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
-.item:nth-clild(2n) {
-  background-color: #EFEFEF; }
+  border: 1px solid #FAFAFA;
+  border-bottom: 1px solid #efefef;
+  background-color: #FAFAFA;
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear; }
 
 .archive {
   color: #ccc; }
