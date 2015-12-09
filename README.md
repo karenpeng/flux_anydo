@@ -45,6 +45,13 @@ src
    ├─utils
 ```
 
+### Usage
+ * Use input box to add note
+ * Tap on note to edit
+ * Tap on ▲ to re-order note
+ * Swipe to mark note completed
+ * Tap on ╳ to remove note
+
 ### Demo
 Open index.html in browser
 
