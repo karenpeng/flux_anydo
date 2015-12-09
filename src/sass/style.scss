@@ -51,8 +51,9 @@ body {
 }
 
 .head-input {
-  height: 56px;
-  line-height: 56px;
+  height: inherit; 
+  padding-top: 24px;
+  padding-bottom: 24px;
   border-bottom-color: #EFEFEF;
 }
 
@@ -74,7 +75,7 @@ body {
 }
 
 .active button{
-  color: #aaa;
+  color: #bbb;
 }
 
 .item {
