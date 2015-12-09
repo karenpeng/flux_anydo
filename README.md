@@ -29,6 +29,8 @@ Create a mobile web app that allows you create, edit, and view short notes. Note
   * browserify - bundle module
   * flux - app architecture
   * react - ui component
+  * sass - styling
+  * mocha - testing
   
  * Structure (flux)
  
