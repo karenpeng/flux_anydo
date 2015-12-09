@@ -1,5 +1,6 @@
 $font-stack:    Helvetica, sans-serif;
 $primary-color: #333;
+$bgColor: #FAFAFA;
 
 @mixin transition($param){
 	-webkit-transition: $param;
@@ -58,7 +59,7 @@ body {
 }
 
 .item-input {
-  background-color: #FAFAFA;
+  background-color: $bgColor;
 }
 
 .archive button, .active button {
@@ -83,9 +84,9 @@ body {
 	line-height: 48px;
 	position: relative;
 	padding: 0 5%;
-  border: 1px solid #FAFAFA;
+  border: 1px solid $bgColor;
   border-bottom: 1px solid #efefef;
-	background-color: #FAFAFA;
+	background-color: $bgColor;
   @include transition(0.2s all linear);
 }
 

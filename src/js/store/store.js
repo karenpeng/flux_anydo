@@ -1,8 +1,9 @@
 'use strict';
 
 var assign = require('object-assign');
-var constants = require('../constants/constants');
 var EventEmitter = require('events').EventEmitter;
+
+var constants = require('../constants/constants');
 var FluxUtil = require('../utils/fluxUtil');
 var LocalStorageUtil = require('../utils/localStorageUtil');
 

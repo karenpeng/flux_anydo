@@ -20180,17 +20180,18 @@ var AppDispatcher = assign(new Dispatcher(), {
 
 module.exports = AppDispatcher;
 },{"flux":4,"object-assign":7}],173:[function(require,module,exports){
-var App = require('./components/app');
 var r = require('r-dom');
 var ReactDom = require('react-dom');
+var App = require('./components/app');
 
 ReactDom.render(r(App), document.getElementById('container'));
 },{"./components/app":170,"r-dom":8,"react-dom":10}],174:[function(require,module,exports){
 'use strict';
 
 var assign = require('object-assign');
-var constants = require('../constants/constants');
 var EventEmitter = require('events').EventEmitter;
+
+var constants = require('../constants/constants');
 var FluxUtil = require('../utils/fluxUtil');
 var LocalStorageUtil = require('../utils/localStorageUtil');
 
@@ -20317,6 +20318,7 @@ var store = assign({}, EventEmitter.prototype, {
 })
 
 module.exports = store;
+
 },{"../constants/constants":171,"../utils/fluxUtil":175,"../utils/localStorageUtil":176,"events":1,"object-assign":7}],175:[function(require,module,exports){
 'use strict';
 

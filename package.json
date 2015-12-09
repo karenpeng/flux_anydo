@@ -1,13 +1,13 @@
 {
-  "name": "new",
+  "name": "flux_anydo",
   "version": "1.0.0",
-  "description": "",
+  "description": "a mobile app that allows you to create, edit, view short notes",
   "main": "gulpfile.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "devDependencies": {
     "browserify": "^11.2.0",
@@ -29,6 +29,6 @@
     "react": "0.14.x",
     "react-dom": "^0.14.3"
   },
-  "author": "",
+  "author": "Karen Peng",
   "license": "ISC"
 }
