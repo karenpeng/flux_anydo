@@ -11,15 +11,15 @@ body {
 
 .input-box {
   height: 48px;
-  width: 94%;
+  width: 90%;
   outline: none;
-  padding: 0 3%;
+  padding: 0 5%;
   border: 1px solid #FFF;
   font-size: 1rem;
   -webkit-transition: 0.2s all linear;
   transition: 0.2s all linear; }
 
-.input-box.editing {
+.input-box.editing, .head-input.editing {
   border-color: #FFF;
   outline: none;
   border: 1px solid #0080ff;
@@ -28,6 +28,11 @@ body {
   -moz-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
   -webkit-box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5);
   box-shadow: 0px 0px 4px rgba(0, 128, 255, 0.5); }
+
+.head-input {
+  height: 56px;
+  line-height: 56px;
+  border-bottom-color: #EFEFEF; }
 
 .item-input {
   background-color: #FAFAFA; }
@@ -41,20 +46,18 @@ body {
   height: 48px;
   width: 48px;
   color: #999;
+  outline: none;
   -webkit-transition: 0.2s all linear;
   transition: 0.2s all linear; }
 
-.archive button:hover, .archive button:active, .active button:hover {
-  font-size: 1em; }
-
-.active button:visited {
-  font-size: 11px; }
+.active button {
+  color: #aaa; }
 
 .item {
   height: 48px;
   line-height: 48px;
   position: relative;
-  padding: 0 3%;
+  padding: 0 5%;
   border: 1px solid #FAFAFA;
   border-bottom: 1px solid #efefef;
   background-color: #FAFAFA;

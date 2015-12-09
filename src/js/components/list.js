@@ -88,7 +88,7 @@ var List = React.createClass({
 								onClick: function(){
 									actions.reorder(key);
 								}
-							}, '^')
+							}, '▲')
 
 						]):
 				r.input({

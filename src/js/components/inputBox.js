@@ -21,10 +21,10 @@ var InputBox = React.createClass({
 		
 		return r.div({}, [
 			r.input({
-				className: 'input-box',
+				className: 'head-input input-box',
 				placeholder: 'what\'s on your mind?',
 				onFocus: function(e) {
-					e.target.className = 'input-box editing';
+					e.target.className = 'head-input input-box editing';
 					actions.inputting();
 				},
 				onBlur: function(e) {
@@ -33,7 +33,7 @@ var InputBox = React.createClass({
 						ctn: e.target.value
 					});
 					e.target.value = '';
-					e.target.className = 'input-box';
+					e.target.className = 'head-input input-box';
 				},
 				onKeyUp: function(e){
 					if(e.keyCode === 13){
