@@ -66,7 +66,7 @@ var List = React.createClass({
 		var msgActive = store.getActive();
 		var msgArchive = store.getArchive();
 		var crtKey = store.getCurrentKey();
-		
+
 		var domList = [];
 
 		msgActive.forEach(function(key, index){

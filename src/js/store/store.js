@@ -60,7 +60,7 @@ var store = assign({}, EventEmitter.prototype, {
 			store.emitChange();
 		},
 
-		add: function(action){		
+		add: function(action){
 			var _ctn = action.data.ctn;
 			if(_ctn !== ''){
 				var _id = action.data.key;
@@ -93,7 +93,7 @@ var store = assign({}, EventEmitter.prototype, {
 		modify: function(action){
 			var _ctn = action.data.ctn;
 			if(_ctn !== ''){
-			var _id = action.data.key;			
+			var _id = action.data.key;
 				_list[_id].ctn = _ctn;
 				_currentID = null;
 				store.emitChange();

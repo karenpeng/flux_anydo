@@ -18,7 +18,7 @@ var InputBox = React.createClass({
 	},
 
 	render: function(){
-		
+
 		return r.div({}, [
 			r.input({
 				className: 'head-input input-box',
