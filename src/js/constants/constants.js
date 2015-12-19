@@ -2,7 +2,7 @@
 
 var ItemConstants = {
   ACTION_LIST: [
-  	'add',
+    'add',
     'edit',
     'modify',
     'remove',

@@ -6,14 +6,14 @@ var List = require('./List');
 var InputBox = require('./InputBox');
 
 var App = React.createClass({
-	displayName: 'app',
+displayName: 'app',
 
-	render: function(){
-		return r.div({}, [
-			r(InputBox),
-			r(List)
-		])
-	}
+render: function(){
+  return r.div({}, [
+      r(InputBox),
+      r(List)
+    ])
+  }
 })
 
 module.exports = App;

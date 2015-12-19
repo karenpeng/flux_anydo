@@ -3,28 +3,28 @@ $primary-color: #333;
 $bgColor: #FAFAFA;
 
 @mixin transition($param){
-	-webkit-transition: $param;
-	transition: $param;
+  -webkit-transition: $param;
+  transition: $param;
 }
 
 @mixin shadow($param){
-	-moz-box-shadow: $param;
+  -moz-box-shadow: $param;
   -webkit-box-shadow: $param;
   box-shadow: $param;
 }
 
 @mixin boxsizing($param){
-	-moz-box-sizing: $param;
+  -moz-box-sizing: $param;
   -webkit-box-sizing: $param;
   box-sizing: $param;
 }
 
 body, html{
-	width: 100%;
-	height: 100%;
-	top: 0;
-	margin: 0;
-	padding: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -80,32 +80,32 @@ body {
 }
 
 .item {
-	height: 48px;
-	line-height: 48px;
-	position: relative;
-	padding: 0 5%;
+  height: 48px;
+  line-height: 48px;
+  position: relative;
+  padding: 0 5%;
   border: 1px solid $bgColor;
   border-bottom: 1px solid #efefef;
-	background-color: $bgColor;
+  background-color: $bgColor;
   @include transition(0.2s all linear);
 }
 
 .archive {
-	color: #ccc;
+  color: #ccc;
 }
 
 .archive .msg-content {
-	text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .msg-content {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .hiddenBtn{
-	display: none;
+  display: none;
 }
 
 .showBtn{
-	display: block;
+  display: block;
 }
